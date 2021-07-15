@@ -62,24 +62,25 @@ RUN set -xe; \
     useradd -u ${PUID} -g laradock -m laradock -G docker_env && \
     usermod -p "*" laradock -s /bin/bash && \
     apt-get install -yqq \
-      apt-utils \
-      #
-      #--------------------------------------------------------------------------
-      # Mandatory Software's Installation
-      #--------------------------------------------------------------------------
-      #
-      # Mandatory Software's such as ("php-cli", "git", "vim", ....) are
-      # installed on the base image 'laradock/workspace' image. If you want
-      # to add more Software's or remove existing one, you need to edit the
-      # base image (https://github.com/Laradock/workspace).
-      #
-      # next lines are here becase there is no auto build on dockerhub see https://github.com/laradock/laradock/pull/1903#issuecomment-463142846
-      libzip-dev zip unzip \
-      # Install the zip extension
-      php${LARADOCK_PHP_VERSION}-zip \
-      # nasm
-      nasm && \
-      php -m | grep -q 'zip'
+    apt-utils \
+    #
+    #--------------------------------------------------------------------------
+    # Mandatory Software's Installation
+    #--------------------------------------------------------------------------
+    #
+    # Mandatory Software's such as ("php-cli", "git", "vim", ....) are
+    # installed on the base image 'laradock/workspace' image. If you want
+    # to add more Software's or remove existing one, you need to edit the
+    # base image (https://github.com/Laradock/workspace).
+    #
+    # next lines are here becase there is no auto build on dockerhub see https://github.com/laradock/laradock/pull/1903#issuecomment-463142846
+    zip unzip \
+    # libzip-dev \
+    # Install the zip extension
+    php${LARADOCK_PHP_VERSION}-zip \
+    # nasm
+    nasm && \
+    php -m | grep -q 'zip'
 
 #
 #--------------------------------------------------------------------------
@@ -1081,14 +1082,14 @@ USER laradock
 # ImageMagick:
 ###########################################################################
 
-USER root
+# USER root
 
-ARG INSTALL_IMAGEMAGICK=false
+# ARG INSTALL_IMAGEMAGICK=false
 
-RUN if [ ${INSTALL_IMAGEMAGICK} = true ]; then \
-    apt-get update && \
-    apt-get install -y imagemagick php-imagick \
-;fi
+# RUN if [ ${INSTALL_IMAGEMAGICK} = true ]; then \
+#     apt-get update && \
+#     apt-get install -y imagemagick php-imagick \
+# ;fi
 
 ###########################################################################
 # Terraform:
