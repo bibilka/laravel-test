@@ -2,84 +2,48 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\QuoteRequest;
+use App\Http\Requests\RequestWithPagination;
 use App\Models\Quote;
 use Illuminate\Http\Request;
 
-class QuoteController extends Controller
+/**
+* Контроллер для работы с сущностью "цитата".
+*/
+class QuoteController extends ApiController
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
-    {
-        return Quote::all();
-    }
+   /**
+    * Отдает список всех цитат.
+    * @param Request $request
+    * 
+    * @return \Illuminate\Http\JsonResponse
+    */
+   public function index(RequestWithPagination $request)
+   {
+       $data = Quote::paginate($this->limit);
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
+       return responder()->success($data);
+   }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
-    }
+   /**
+    * Отдает случайную цитату.
+    *
+    * @param  QuoteRequest $request
+    * @return \Illuminate\Http\Response
+    */
+   public function random(QuoteRequest $request)
+   {
+       $query = Quote::query();
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\Quote  $quote
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Quote $quote)
-    {
-        //
-    }
+        if ($request->has('author')) {
+            $query->whereHas('character', function ($q) use ($request) {
+                $q->where('name', 'like', "%{$request->author}%");
+            });
+        }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\Quote  $quote
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Quote $quote)
-    {
-        //
-    }
+        $data = $query->inRandomOrder()->firstOrFail();
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Quote  $quote
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, Quote $quote)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\Quote  $quote
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(Quote $quote)
-    {
-        //
-    }
+        return responder()->success($data);
+   }
 }
+

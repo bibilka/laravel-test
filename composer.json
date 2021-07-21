@@ -12,6 +12,7 @@
         "barryvdh/laravel-debugbar": "^3.5",
         "barryvdh/laravel-ide-helper": "^2.8",
         "fideloper/proxy": "^4.2",
+        "flugger/laravel-responder": "^3.1",
         "fruitcake/laravel-cors": "^2.0",
         "guzzlehttp/guzzle": "^7.0.1",
         "intervention/image": "^2.5",
@@ -20,7 +21,7 @@
         "laravel/horizon": "^5.3",
         "laravel/passport": "^10.0",
         "laravel/tinker": "^2.0",
-        "ext-redis": "*"
+        "predis/predis": "^1.1"
     },
     "require-dev": {
         "facade/ignition": "^2.3.6",

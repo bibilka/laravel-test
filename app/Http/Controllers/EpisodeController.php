@@ -2,84 +2,36 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\RequestWithPagination;
 use App\Models\Episode;
 use Illuminate\Http\Request;
 
-class EpisodeController extends Controller
+/**
+ * Контроллер для работы с сущностью "Эпизод".
+ */
+class EpisodeController extends ApiController
 {
     /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
+     * Отдает список всех эпизодов.
+     * @param Request $request
+     * 
+     * @return \Illuminate\Http\JsonResponse
      */
-    public function index()
+    public function index(RequestWithPagination $request)
     {
-        return Episode::all();
+        $data = Episode::paginate($this->limit);
+        return responder()->success($data);
     }
 
     /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
+     * Отдает эпизод по ID.
      *
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
     public function show($id)
     {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
+        $items = Episode::findOrFail($id);
+        return responder()->success($items)->with('characters');
     }
 }

@@ -21,6 +21,25 @@ use Illuminate\Support\Facades\Route;
 //     return $request->user();
 // });
 
+/*
+|------------------------------------------
+| Эпизоды
+|------------------------------------------
+*/
+Route::resource('/episodes', EpisodeController::class)->only(['index', 'show']);
+
+/*
+|------------------------------------------
+| Персонажи
+|------------------------------------------
+*/
 Route::get('/characters', [CharacterController::class, 'index']);
-Route::get('/episodes', [EpisodeController::class, 'index']);
+Route::get('/characters/random', [CharacterController::class, 'random']);
+
+/*
+|------------------------------------------
+| Цитаты
+|------------------------------------------
+*/
 Route::get('/quotes', [QuoteController::class, 'index']);
+Route::get('/quotes/random', [QuoteController::class, 'random']);

@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+use App\Transformers\QuoteTransformer;
+use Flugg\Responder\Contracts\Transformable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -16,11 +18,13 @@ use Illuminate\Database\Eloquent\Model;
  * 
  * @method static \Illuminate\Database\Eloquent\Builder whereQuote($value)
  */
-class Quote extends Model
+class Quote extends Model implements Transformable
 {
     use HasFactory;
 
     public $timestamps = false;
+
+    protected $hidden = ['episode_id', 'character_id'];
 
     /**
      * Эпизод, в котором была эта цитата.
@@ -36,5 +40,15 @@ class Quote extends Model
     public function character()
     {
         return $this->belongsTo(Character::class);
+    }
+
+    /**
+     * Get a transformer for the class.
+     *
+     * @return \Flugg\Responder\Transformers\Transformer|string|callable
+     */
+    public function transformer()
+    {
+        return QuoteTransformer::class;
     }
 }

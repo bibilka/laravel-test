@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+use App\Transformers\CharacterTransformer;
+use Flugg\Responder\Contracts\Transformable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -24,7 +26,7 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Eloquent\Builder whereNickname($value)
  * @method static \Illuminate\Database\Eloquent\Builder wherePortrayed($value)
  */
-class Character extends Model
+class Character extends Model implements Transformable
 {
     use HasFactory;
 
@@ -39,11 +41,11 @@ class Character extends Model
         'birthday' => 'datetime:Y-m-d',
     ];
 
-    // adding the appends value will call the accessor in the JSON response
-    protected $appends = ['quotes_ids', 'episodes_ids'];
-
-    // скрываем атрибут с полным списком полей цитат
-    protected $hidden = ['quotes', 'episodes'];
+    /**
+     * Поля недоступные для просмотра.
+     * @var array
+     */
+    protected $hidden = ['pivot'];
     
     /**
      * Цитаты, которые приндалежат этому персонажу.
@@ -63,20 +65,12 @@ class Character extends Model
     }
 
     /**
-     * Аттрибут 'quotes_ids'.
-     * @return array
+     * Get a transformer for the class.
+     *
+     * @return \Flugg\Responder\Transformers\Transformer|string|callable
      */
-    public function getQuotesIdsAttribute()
+    public function transformer()
     {
-        return $this->quotes->pluck('id');
-    }
-
-    /**
-     * Аттрибут 'episodes_ids'.
-     * @return array
-     */
-    public function getEpisodesIdsAttribute()
-    {
-        return $this->episodes->pluck('id');
+        return CharacterTransformer::class;
     }
 }
