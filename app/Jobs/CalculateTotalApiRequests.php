@@ -7,7 +7,6 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
-use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Redis;
 use Illuminate\Support\Str;
 
@@ -36,7 +35,6 @@ class CalculateTotalApiRequests implements ShouldQueue
      */
     public function handle()
     {
-        Log::debug('test');
         $total = 0;
 
         $pattern = Str::replace('{id}', '*', config('api.cache_keys.user_stats'));
@@ -47,7 +45,7 @@ class CalculateTotalApiRequests implements ShouldQueue
             // $key = Str::replace(config('database.redis.options.prefix'), '', $key);
             $total += Redis::get($key);
         }
-        Log::debug($total);
+
         // складываем посчитанное значение в кэш
         Redis::set(config('api.cache_keys.total_stats'), $total);
     }

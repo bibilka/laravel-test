@@ -23,7 +23,7 @@ Route::middleware(['guest', 'throttle:3'])->group(function () {
 });
 
 // роуты доступные только после авторизации
-Route::middleware(['auth:sanctum', 'throttle:20', 'api.request'])->group(function() {
+Route::middleware(['auth:sanctum', 'throttle:' . config('api.requests_per_minute'), 'api.request'])->group(function() {
 
     /*
     |------------------------------------------
