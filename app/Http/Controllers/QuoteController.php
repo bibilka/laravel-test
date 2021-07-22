@@ -29,7 +29,7 @@ class QuoteController extends ApiController
     * Отдает случайную цитату.
     *
     * @param  QuoteRequest $request
-    * @return \Illuminate\Http\Response
+    * @return \Illuminate\Http\JsonResponse
     */
    public function random(QuoteRequest $request)
    {

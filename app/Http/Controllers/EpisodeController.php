@@ -27,7 +27,7 @@ class EpisodeController extends ApiController
      * Отдает эпизод по ID.
      *
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
     public function show($id)
     {

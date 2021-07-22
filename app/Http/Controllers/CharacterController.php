@@ -34,7 +34,7 @@ class CharacterController extends ApiController
      * Отдает случайного персонажа.
      *
      * @param Request $request
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
     public function random(Request $request)
     {

@@ -19,8 +19,9 @@
         "laracasts/utilities": "^3.2",
         "laravel/framework": "^8.0",
         "laravel/horizon": "^5.3",
-        "laravel/passport": "^10.0",
+        "laravel/sanctum": "^2.11",
         "laravel/tinker": "^2.0",
+        "laravel/ui": "^3.3",
         "predis/predis": "^1.1"
     },
     "require-dev": {
