@@ -3,8 +3,8 @@
 use App\Http\Controllers\CharacterController;
 use App\Http\Controllers\EpisodeController;
 use App\Http\Controllers\QuoteController;
+use App\Http\Controllers\StatisticController;
 use App\Http\Controllers\UserController;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -17,18 +17,21 @@ use Illuminate\Support\Facades\Route;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
-
-Route::middleware('guest')->group(function () {
+Route::middleware(['guest', 'throttle:3'])->group(function () {
     // получение токена доступа
     Route::post('/token', [UserController::class, 'token']);
 });
 
 // роуты доступные только после авторизации
-Route::middleware(['auth:sanctum', 'throttle:20'])->group(function() {
+Route::middleware(['auth:sanctum', 'throttle:20', 'api.request'])->group(function() {
 
-    Route::get('/name', function (Request $request) {
-        return response()->json(['name' => $request->user()->name]);
-    });
+    /*
+    |------------------------------------------
+    | Статистика
+    |------------------------------------------
+    */
+    Route::get('/stats', [StatisticController::class, 'total']);
+    Route::get('/my-stats', [StatisticController::class, 'my']);
 
     /*
     |------------------------------------------

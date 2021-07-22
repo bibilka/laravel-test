@@ -2,6 +2,7 @@
 
 namespace App\Console;
 
+use App\Jobs\CalculateTotalApiRequests;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 
@@ -24,6 +25,10 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
+        // Создать запланированную задачу (schedule) с периодом 1 минута, 
+        // которая будет выполняться в очереди и считать общее к-во запросов к API 
+        $schedule->job(new CalculateTotalApiRequests)->everyMinute();
+
         // $schedule->command('inspire')->hourly();
     }
 

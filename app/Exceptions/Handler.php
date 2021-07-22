@@ -77,6 +77,11 @@ class Handler extends ExceptionHandler
 
             // all other exceptions
             if ($ex instanceof Exception) {
+                
+                if (config('app.debug')) {
+                    dd($ex);
+                }
+
                 return responder()->error('unknown_error', 'Неизвестная ошибка')->respond(500);
             }
         }
